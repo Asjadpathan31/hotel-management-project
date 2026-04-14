@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">🏨Hotels</h1>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showSection('dashboard')" class="nav-link">Dashboard</a></li>
+                <li><a href="#" onclick="showSection('rooms')" class="nav-link">Rooms</a></li>
+                <li><a href="#" onclick="showSection('booking')" class="nav-link">Booking</a></li>
+                <li><a href="#" onclick="showSection('checkIn')" class="nav-link">Check-In</a></li>
+                <li><a href="#" onclick="showSection('billing')" class="nav-link">Billing</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- ============== DASHBOARD SECTION ============== -->
+        <section id="dashboard" class="section">
+            <h2>Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <h3>Total Rooms</h3>
+                    <p class="stat-value" id="totalRoomsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Available Rooms</h3>
+                    <p class="stat-value available" id="availableRoomsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Occupied Rooms</h3>
+                    <p class="stat-value occupied" id="occupiedRoomsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Bookings</h3>
+                    <p class="stat-value" id="totalBookingsCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <p class="stat-value" id="totalRevenue">$0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Check-ins</h3>
+                    <p class="stat-value" id="todayCheckinsCount">0</p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="initializeSampleData()" class="btn btn-primary">Load Sample Data</button>
+                <button onclick="clearAllData()" class="btn btn-danger">Clear All Data</button>
+            </div>
+        </section>
+
+        <!-- ============== ROOMS MANAGEMENT SECTION ============== -->
+        <section id="rooms" class="section hidden">
+            <h2>Room Management</h2>
+            
+            <div class="form-section">
+                <h3>Add New Room</h3>
+                <form id="roomForm" class="form">
+                    <div class="form-group">
+                        <label>Room Number</label>
+                        <input type="text" id="roomNumber" placeholder="e.g., 101" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Room Type</label>
+                        <select id="roomType" required>
+                            <option value="">Select Type</option>
+                            <option value="Single">Single Bed</option>
+                            <option value="Double">Double Bed</option>
+                            <option value="Suite">Suite</option>
+                            <option value="Deluxe">Deluxe</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price per Night ($)</label>
+                        <input type="number" id="roomPrice" placeholder="e.g., 150" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Capacity</label>
+                        <input type="number" id="roomCapacity" placeholder="e.g., 2" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Room</button>
+                </form>
+            </div>
+
+            <div class="rooms-list">
+                <h3>Room List</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Room #</th>
+                            <th>Type</th>
+                            <th>Price/Night</th>
+                            <th>Capacity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomsTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center">No rooms added yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============== BOOKING SECTION ============== -->
+        <section id="booking" class="section hidden">
+            <h2>Room Booking</h2>
+
+            <div class="form-section">
+                <h3>Make a Booking</h3>
+                <form id="bookingForm" class="form">
+                    <div class="form-group">
+                        <label>Guest Name</label>
+                        <input type="text" id="guestName" placeholder="Enter guest name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Guest Email</label>
+                        <input type="email" id="guestEmail" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Guest Phone</label>
+                        <input type="tel" id="guestPhone" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Room</label>
+                        <select id="bookingRoomSelect" required>
+                            <option value="">Select Available Room</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Check-in Date</label>
+                        <input type="date" id="checkInDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Check-out Date</label>
+                        <input type="date" id="checkOutDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Guests</label>
+                        <input type="number" id="numGuests" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Requests</label>
+                        <textarea id="specialRequests" placeholder="Any special requests?" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Booking</button>
+                </form>
+            </div>
+
+            <div class="bookings-list">
+                <h3>Booking List</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Guest</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center">No bookings yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============== CHECK-IN SECTION ============== -->
+        <section id="checkIn" class="section hidden">
+            <h2>Guest Check-In/Check-Out</h2>
+
+            <div class="form-section">
+                <h3>Check-In Guest</h3>
+                <form id="checkInForm" class="form">
+                    <div class="form-group">
+                        <label>Booking ID</label>
+                        <input type="text" id="checkInBookingId" placeholder="Enter booking ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Check-in Notes</label>
+                        <textarea id="checkInNotes" placeholder="Any notes about the guest?" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Check-In Guest</button>
+                </form>
+            </div>
+
+            <div class="checkins-list">
+                <h3>Guest Status</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Guest Name</th>
+                            <th>Room</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="checkinTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center">No check-ins yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============== BILLING SECTION ============== -->
+        <section id="billing" class="section hidden">
+            <h2>Billing & Invoices</h2>
+
+            <div class="billing-list">
+                <h3>Invoices</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Guest Name</th>
+                            <th>Room</th>
+                            <th>Nights</th>
+                            <th>Room Charge</th>
+                            <th>Additional</th>
+                            <th>Tax</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billingTableBody">
+                        <tr>
+                            <td colspan="10" class="text-center">No invoices yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-section">
+                <h3>Add Additional Charges</h3>
+                <form id="chargesForm" class="form">
+                    <div class="form-group">
+                        <label>Booking ID</label>
+                        <input type="text" id="chargesBookingId" placeholder="Enter booking ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Service Name</label>
+                        <select id="serviceName" required>
+                            <option value="">Select Service</option>
+                            <option value="Room Service">Room Service</option>
+                            <option value="Laundry">Laundry</option>
+                            <option value="Parking">Parking</option>
+                            <option value="Spa">Spa</option>
+                            <option value="Minibar">Minibar</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount ($)</label>
+                        <input type="number" id="chargesAmount" min="0" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Charge</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Modal for Invoice -->
+    <div id="invoiceModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeInvoiceModal()">&times;</span>
+            <div id="invoiceContent"></div>
+            <button onclick="printInvoice()" class="btn btn-primary">Print Invoice</button>
+            <button onclick="downloadInvoice()" class="btn btn-secondary">Download PDF</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
